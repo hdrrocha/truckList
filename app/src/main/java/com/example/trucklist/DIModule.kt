@@ -3,6 +3,7 @@ package com.example.trucklist
 
 import android.content.Context
 import com.example.trucklist.api.NetworkModule
+import com.example.trucklist.view.TruckDetailsActivity
 import com.example.trucklist.view.VehicleActivity
 import dagger.BindsInstance
 import dagger.Component
@@ -23,6 +24,7 @@ class AppModule
 abstract class AndroidInjectorsModule {
     @ContributesAndroidInjector
     abstract fun vehicleActivity(): VehicleActivity
+    abstract fun truckDetailsActivity(): TruckDetailsActivity
 }
 
 @Singleton
