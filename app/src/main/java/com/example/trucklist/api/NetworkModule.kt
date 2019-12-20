@@ -17,7 +17,6 @@ class NetworkModule {
     @Provides
     @Singleton
     fun providesApi(): ApiClient {
-
         val loggingInterceptor = HttpLoggingInterceptor()
         if (BuildConfig.DEBUG)
             loggingInterceptor.level = HttpLoggingInterceptor.Level.HEADERS
