@@ -24,6 +24,7 @@ class AppModule
 abstract class AndroidInjectorsModule {
     @ContributesAndroidInjector
     abstract fun vehicleActivity(): VehicleActivity
+    @ContributesAndroidInjector
     abstract fun truckDetailsActivity(): TruckDetailsActivity
 }
 

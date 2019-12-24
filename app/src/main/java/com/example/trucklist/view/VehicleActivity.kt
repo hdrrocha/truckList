@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.trucklist.R
 import com.example.trucklist.ViewModelFactory
 import com.example.trucklist.model.Tires
 import com.example.trucklist.model.Vehicle
@@ -19,7 +20,7 @@ import javax.inject.Inject
 
 
 class VehicleActivity : AppCompatActivity() {
-    lateinit var adapter: VehicleAdapter
+      lateinit var adapter: VehicleAdapter
 
     @Inject
     lateinit var vehiclesVMFactory: ViewModelFactory<VehicleViewModel>
@@ -36,7 +37,7 @@ class VehicleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         vehiclesViewModel.data.observe(this, vehiclesObserver)
-        vehiclesViewModel.fethVehicle()
+        vehiclesViewModel.fethVehicle(this)
     }
 
 
@@ -50,19 +51,16 @@ class VehicleActivity : AppCompatActivity() {
     private fun updateAdapter(list: List<Vehicle>) {
         rc_trucks.layoutManager = LinearLayoutManager(this)
         rc_trucks.setHasFixedSize(true)
-        adapter = VehicleAdapter({ tires: ArrayList<Tires> -> partItemClicked(tires) } )
+        adapter = VehicleAdapter({ plate: String -> partItemClicked(plate) } )
         adapter.update(list)
         rc_trucks.adapter = adapter
 
     }
 
-    private fun partItemClicked(tires: ArrayList<Tires>) {
-        Toast.makeText(this, tires.get(0).plateVehicle, Toast.LENGTH_SHORT).show()
+    private fun partItemClicked(plate : String) {
+        Toast.makeText(this, plate, Toast.LENGTH_SHORT).show()
         val intent = Intent(this.baseContext, TruckDetailsActivity::class.java)
-        intent.put("tires", tires)
+        intent.putExtra("plate_select", plate)
         startActivity(intent)
-
-        val b = Bundle()
-        b.putSerializable("tires", tires)
     }
 }

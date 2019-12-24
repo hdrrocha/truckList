@@ -1,8 +1,9 @@
 package com.example.trucklist.model
 
 data class Tires(
+    val id: String,
     val dot: String,
-    val fireNumber: Double,
-    val pressure: Double,
+    val fireNumber: String,
+    val pressure: String,
     val plateVehicle: String
     )

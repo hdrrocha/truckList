@@ -10,7 +10,7 @@ import com.example.trucklist.model.Vehicle
 import kotlinx.android.synthetic.main.item_plate.view.*
 
 
-class VehicleAdapter(val clickListener: ((ArrayList<Tires>) -> Unit)?) : RecyclerView.Adapter<VehicleAdapter.ViewHolder>() {
+class VehicleAdapter(val clickListener: ((String) -> Unit)?) : RecyclerView.Adapter<VehicleAdapter.ViewHolder>() {
     var vehicles: List<Vehicle>
 
     init {
@@ -19,9 +19,9 @@ class VehicleAdapter(val clickListener: ((ArrayList<Tires>) -> Unit)?) : Recycle
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(vehicleItem: Vehicle, clickListener: ((ArrayList<Tires>) -> Unit)?) {
+        fun bind(vehicleItem: Vehicle, clickListener: ((String) -> Unit)?) {
             itemView.tv_title.text = vehicleItem.plate
-            itemView.setOnClickListener { clickListener?.let { it1 -> it1(vehicleItem.tires ) } }
+            itemView.setOnClickListener { clickListener?.let { it1 -> it1(vehicleItem.plate ) } }
         }
     }
 
