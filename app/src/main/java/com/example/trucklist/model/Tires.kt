@@ -5,5 +5,5 @@ data class Tires(
     val dot: String,
     val fireNumber: String,
     val pressure: String,
-    val plateVehicle: String
+    val plate: String
     )

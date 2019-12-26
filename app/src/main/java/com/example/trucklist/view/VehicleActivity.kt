@@ -2,7 +2,6 @@ package com.example.trucklist.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -10,7 +9,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.trucklist.R
 import com.example.trucklist.ViewModelFactory
-import com.example.trucklist.model.Tires
 import com.example.trucklist.model.Vehicle
 import com.example.trucklist.view.adapter.VehicleAdapter
 import com.example.trucklist.view_model.VehicleViewModel
@@ -42,9 +40,6 @@ class VehicleActivity : AppCompatActivity() {
 
 
     private fun vehiclesFetched(list: List<Vehicle>?) {
-        list?.forEach {
-            Log.i("Helder", it.plate)
-        }
         list?.let { updateAdapter(it) }
     }
 

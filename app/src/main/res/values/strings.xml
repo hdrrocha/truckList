@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Truck List</string>
+    <string name="fire_number">Numero de fogo:</string>
+    <string name="tire">Pneu:</string>
+    <string name="dot">DOT:</string>
+    <string name="plate">Placa:</string>
+    <string name="pressure">Pressão:</string>
+    <string name="title_dialog_tire">Detalhes do pneu</string>
 </resources>

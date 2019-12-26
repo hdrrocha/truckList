@@ -6,4 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".view.TruckDetailsActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rc_tires"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:itemCount="2" />
 </androidx.constraintlayout.widget.ConstraintLayout>

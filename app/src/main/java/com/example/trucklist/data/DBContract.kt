@@ -25,12 +25,12 @@ object DBContract {
 
     class TiresEntry : BaseColumns {
         companion object {
-            val TABLE_NAME = "tyres"
+            val TABLE_NAME = "tires"
             val COLUMN_ID = "id"
             val COLUMN_DOT = "dot"
+            val COLUMN_PLATE = "plate"
             val COLUMN_FIRE_NUMBER = "fireNumber"
             val COLUMN_PRESSURE = "pressure"
-            val COLUMN_PLATE_VEHICLE = "plateVehicle"
         }
     }
 }

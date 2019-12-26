@@ -22,11 +22,14 @@ class TiresRepository(context: Context) {
     }
 
     fun addTires(tires: Tires){
-        mDBHelper.insertTires(tires)
+        if(!mDBHelper.readAllTires().contains(tires)) {
+            mDBHelper.insertTires(tires)
+        }
+
     }
 
     fun getTiresToPlate(plate: String): ArrayList<Tires> {
-        return mDBHelper.readTiresToPlate(plate)
+        return mDBHelper.readGames(plate)
     }
 
     fun updateVehicleItem(vehicle: Vehicle): Boolean {

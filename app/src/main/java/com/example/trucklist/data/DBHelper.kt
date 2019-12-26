@@ -47,17 +47,47 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
             put(DBContract.TiresEntry.COLUMN_DOT, tires.dot)
             put(DBContract.TiresEntry.COLUMN_FIRE_NUMBER, tires.fireNumber)
             put(DBContract.TiresEntry.COLUMN_PRESSURE, tires.pressure)
-            put(DBContract.TiresEntry.COLUMN_PLATE_VEHICLE, tires.plateVehicle)
+            put(DBContract.TiresEntry.COLUMN_PLATE, tires.plate)
         }
         val newRowId = db.insert(DBContract.TiresEntry.TABLE_NAME, null, values)
 
         newRowId > -1
     }
 
+    fun readGames(plate: String): ArrayList<Tires> =
+        writableDatabase.use { db ->
+            val selectQuery =
+                "SELECT  * FROM ${DBContract.TiresEntry.TABLE_NAME} WHERE ${DBContract.TiresEntry.COLUMN_PLATE} = '${plate}'"
+            db.rawQuery(selectQuery, null).use { cursor ->
+                val mTires = ArrayList<Tires>()
+                if (cursor.moveToFirst()) {
+                    while (!cursor.isAfterLast) {
+                        val id = cursor.getString(DBContract.TiresEntry.COLUMN_ID)
+                        val dot = cursor.getString(DBContract.TiresEntry.COLUMN_DOT)
+                        val fireNumber = cursor.getString(DBContract.TiresEntry.COLUMN_FIRE_NUMBER)
+                        val pressure = cursor.getString(DBContract.TiresEntry.COLUMN_PRESSURE)
+                        val plate =cursor.getString(DBContract.TiresEntry.COLUMN_PLATE)
+
+                        mTires.add(
+                            Tires(
+                                id,
+                                dot,
+                                fireNumber,
+                                pressure,
+                                plate
+                            )
+                        )
+                        cursor.moveToNext()
+                    }
+                }
+                mTires
+            }
+        }
+
     fun readTiresToPlate(plate: String): ArrayList<Tires> =
         writableDatabase.use { db ->
             val selectQuery =
-                "SELECT * FROM ${DBContract.TiresEntry.TABLE_NAME} WHERE ${DBContract.TiresEntry.COLUMN_PLATE_VEHICLE} = $plate"
+                "SELECT * FROM ${DBContract.TiresEntry.TABLE_NAME} WHERE ${DBContract.TiresEntry.COLUMN_PLATE} = $plate"
             db.rawQuery(selectQuery, null).use { cursor ->
                 val tires = ArrayList<Tires>()
                 if (cursor.moveToFirst()) {
@@ -66,7 +96,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                         val dot = cursor.getString(DBContract.TiresEntry.COLUMN_DOT)
                         val fireNumber = cursor.getString(DBContract.TiresEntry.COLUMN_FIRE_NUMBER)
                         val pressure = cursor.getString(DBContract.TiresEntry.COLUMN_PRESSURE)
-                        val plateVehicle =cursor.getString(DBContract.TiresEntry.COLUMN_PLATE_VEHICLE)
+                        val plate =cursor.getString(DBContract.TiresEntry.COLUMN_PLATE)
 
                         tires.add(
                             Tires(
@@ -74,7 +104,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                                 dot,
                                 fireNumber,
                                 pressure,
-                                plateVehicle
+                                plate
                             )
                         )
                         cursor.moveToNext()
@@ -106,6 +136,66 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         return vehicles
     }
 
+    fun readAllTires(): ArrayList<Tires> {
+        val tires = ArrayList<Tires>()
+        val db = writableDatabase
+        var cursor: Cursor? = null
+        try {
+            cursor = db.rawQuery("select * from " + DBContract.TiresEntry.TABLE_NAME, null)
+        } catch (e: SQLiteException) {
+            db.execSQL(SQL_CREATE_TIRES)
+            return ArrayList()
+        }
+
+        var id: String
+        var dot: String
+        var fireNumber: String
+        var pressure: String
+        var plateVehicle: String
+
+        while (cursor.moveToNext()) {
+            val id  = cursor.getString(DBContract.TiresEntry.COLUMN_ID)
+            val dot = cursor.getString(DBContract.TiresEntry.COLUMN_DOT)
+            val fireNumber = cursor.getString(DBContract.TiresEntry.COLUMN_FIRE_NUMBER)
+            val pressure = cursor.getString(DBContract.TiresEntry.COLUMN_PRESSURE)
+            val plateVehicle = cursor.getString(DBContract.TiresEntry.COLUMN_PLATE)
+
+            tires.add(Tires(id, dot, fireNumber, pressure, plateVehicle))
+        }
+        return tires
+    }
+
+    fun readAllTiresToPlate(plate: String): ArrayList<Tires> {
+        val tires = ArrayList<Tires>()
+        val db = writableDatabase
+        var cursor: Cursor? = null
+        try {
+            cursor = db.rawQuery(
+                "select * from ${DBContract.TiresEntry.TABLE_NAME } " +
+                        "where ${DBContract.TiresEntry.COLUMN_PLATE} = ${plate} ",null)
+        } catch (e: SQLiteException) {
+            db.execSQL(SQL_CREATE_TIRES)
+            return ArrayList()
+        }
+
+        var id: String
+        var dot: String
+        var fireNumber: String
+        var pressure: String
+        var plateVehicle: String
+
+        while (cursor.moveToNext()) {
+            val id  = cursor.getString(DBContract.TiresEntry.COLUMN_ID)
+            val dot = cursor.getString(DBContract.TiresEntry.COLUMN_DOT)
+            val fireNumber = cursor.getString(DBContract.TiresEntry.COLUMN_FIRE_NUMBER)
+            val pressure = cursor.getString(DBContract.TiresEntry.COLUMN_PRESSURE)
+            val plateVehicle = cursor.getString(DBContract.TiresEntry.COLUMN_PLATE)
+
+            tires.add(Tires(id, dot, fireNumber, pressure, plateVehicle))
+        }
+        return tires
+    }
+
     companion object {
         val DATABASE_VERSION = 1
         val DATABASE_NAME = "FeedReader.db"
@@ -121,7 +211,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
             "CREATE TABLE " + DBContract.TiresEntry.TABLE_NAME + " (" +
                     DBContract.TiresEntry.COLUMN_ID + " TEXT PRIMARY KEY," +
                     DBContract.TiresEntry.COLUMN_DOT + " TEXT," +
-                    DBContract.TiresEntry.COLUMN_PLATE_VEHICLE+ " TEXT," +
+                    DBContract.TiresEntry.COLUMN_PLATE+ " TEXT," +
                     DBContract.TiresEntry.COLUMN_FIRE_NUMBER + " TEXT," +
                     DBContract.TiresEntry.COLUMN_PRESSURE + " TEXT)"
 

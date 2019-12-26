@@ -26,7 +26,10 @@ class VehicleRepository(context: Context) {
     }
 
     fun addVehicle(vehicle: Vehicle){
-        mDBHelper.insertVehicle(vehicle)
+        if(!mDBHelper.readAllVehicle().contains(vehicle)){
+            mDBHelper.insertVehicle(vehicle)
+        }
+
     }
 
     fun getTiresToPlate(vehicle: Vehicle): ArrayList<Tires> {
