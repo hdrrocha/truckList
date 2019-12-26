@@ -2,9 +2,9 @@
 
 O projeto contém:
 
-Retrofit 2
-Dagger 2
-SQLite
+Retrofit 2;
+Dagger 2;
+SQLite;
 
 
 
